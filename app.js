@@ -10,7 +10,7 @@ const fmt = n => Number(n || 0).toLocaleString("en-ZA", {
 const fmtPct = n => n == null ? "—" : `${Number(n).toFixed(2)}%`;
 
 const chLabel = m =>
-    ${Math.floor(m / 1000)}+${String(m % 1000).padStart(3, "0")};
+    `${Math.floor(m / 1000)}+${String(m % 1000).padStart(3, "0")}`;
 
 function clone(x) {
     return JSON.parse(JSON.stringify(x));
