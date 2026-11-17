@@ -7,7 +7,7 @@ const fmt = n => Number(n || 0).toLocaleString("en-ZA", {
     maximumFractionDigits: 2
 });
 
-const fmtPct = n => n == null ? "—" : ${Number(n).toFixed(2)}%;
+const fmtPct = n => n == null ? "—" : `${Number(n).toFixed(2)}%`;
 
 const chLabel = m =>
     ${Math.floor(m / 1000)}+${String(m % 1000).padStart(3, "0")};
