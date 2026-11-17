@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>PVR Earthworks Progress Tracker – Digitised</title>
+
+<style>
+:root {
+    --navy:#10263d;
+    --navy2:#183b59;
+    --teal:#16a6a1;
+    --gold:#d5b36a;
+    --bg:#f2f5f8;
+    --ink:#1d2b38;
+    --muted:#647487;
+    --line:#dbe3ea;
+    --white:#fff;
+    --green:#16845b;
+}
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    margin:0;
+    background:var(--bg);
+    font:14px/1.45 "Segoe UI",Arial,sans-serif;
+    color:var(--ink);
+}
+
+/* HEADER */
+
+header {
+    background:linear-gradient(120deg,var(--navy),var(--navy2));
+    color:#fff;
+    padding:22px 28px;
+    border-bottom:4px solid var(--teal);
+}
+
+.brand {
+    font-size:12px;
+    letter-spacing:2px;
+    color:#9ddbd7;
+    font-weight:700;
+}
+
+.title {
+    font-size:23px;
+    font-weight:700;
+    margin:5px 0;
+}
+
+.subtitle {
+    color:#c7d5e1;
+}
+
+/* MAIN LAYOUT */
+
+.wrap {
+    max-width:1800px;
+    margin:auto;
+    padding:20px;
+}
+
+.toolbar,
+.tabs,
+.filters,
+.summary {
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.toolbar {
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.tabs {
+    margin:14px 0;
+}
+
+/* BUTTONS */
+
+button,
+.tab {
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--navy);
+    padding:10px 15px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+button.primary,
+.tab.active {
+    background:var(--navy2);
+    color:#fff;
+    border-color:var(--navy2);
+}
+
+button:hover {
+    filter:brightness(.97);
+}
+
+button:disabled {
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+/* STATUS */
+
+.status {
+    font-size:12px;
+    color:var(--muted);
+}
+
+/* SUMMARY CARDS */
+
+.cards {
+    display:grid;
+    grid-template-columns:repeat(5,minmax(130px,1fr));
+    gap:12px;
+    margin:14px 0;
+}
+
+.card,
+.panel {
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    box-shadow:0 2px 8px #19334a0a;
+}
+
+.card {
+    padding:14px;
+}
+
+.card small {
+    color:var(--muted);
+    display:block;
+}
+
+.card strong {
+    display:block;
+    font-size:21px;
+    margin-top:4px;
+    color:var(--navy);
+}
+
+/* PANELS */
+
+.panel {
+    padding:16px;
+    margin:14px 0;
+}
+
+.panel h2 {
+    font-size:17px;
+    margin:0 0 12px;
+    color:var(--navy);
+}
+
+/* FILTERS */
+
+.filters {
+    margin:12px 0;
+}
+
+.filters input,
+.filters select {
+    padding:10px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:white;
+    min-width:160px;
+}
+
+/* TABLES */
+
+.tablewrap {
+    overflow:auto;
+    max-height:68vh;
+    border:1px solid var(--line);
+    border-radius:8px;
+}
+
+table {
+    border-collapse:separate;
+    border-spacing:0;
+    white-space:nowrap;
+    font-size:12px;
+}
+
+th,
+td {
+    border-right:1px solid #e5ebf0;
+    border-bottom:1px solid #e5ebf0;
+    padding:5px 7px;
+    text-align:center;
+    min-width:65px;
+    background:#fff;
+}
+
+thead th {
+    position:sticky;
+    top:0;
+    z-index:4;
+    background:#eaf1f5;
+    color:#183b59;
+}
+
+/* STICKY COLUMNS */
+
+th.activity,
+td.activity {
+    position:sticky;
+    left:0;
+    z-index:3;
+    text-align:left;
+    min-width:245px;
+    max-width:245px;
+    white-space:normal;
+    background:#f7fafc;
+}
+
+th.side,
+td.side {
+    position:sticky;
+    left:245px;
+    z-index:3;
+    min-width:82px;
+    background:#f7fafc;
+}
+
+thead th.activity,
+thead th.side {
+    z-index:6;
+    background:#dfe9ef;
+}
+
+tbody tr:hover td {
+    background:#f2fbfa;
+}
+
+tbody tr:hover td.activity,
+tbody tr:hover td.side {
+    background:#edf7f7;
+}
+
+/* INPUTS */
+
+input.tick {
+    width:17px;
+    height:17px;
+    accent-color:var(--teal);
+    cursor:pointer;
+}
+
+input.qty {
+    width:78px;
+    border:1px solid transparent;
+    border-radius:4px;
+    padding:5px 3px;
+    text-align:right;
+    background:transparent;
+    font:inherit;
+}
+
+input.qty:focus {
+    outline:2px solid var(--teal);
+    background:#fff;
+}
+
+.qtycell {
+    min-width:95px;
+}
+
+.done {
+    background:#e7f6ef!important;
+}
+
+.zero {
+    color:#9aa7b2;
+}
+
+/* SUMMARY TABLE */
+
+.summarytable {
+    width:100%;
+    border-collapse:collapse;
+    white-space:normal;
+}
+
+.summarytable th,
+.summarytable td {
+    position:static;
+    text-align:left;
+    padding:9px;
+    min-width:unset;
+}
+
+.summarytable th {
+    background:#eaf1f5;
+}
+
+.summarytable tr:nth-child(even) td {
+    background:#f8fafb;
+}
+
+/* PROGRESS BAR */
+
+.progressbar {
+    height:7px;
+    background:#e8edf1;
+    border-radius:10px;
+    overflow:hidden;
+    min-width:90px;
+}
+
+.progressbar span {
+    display:block;
+    height:100%;
+    background:var(--teal);
+}
+
+/* INFORMATION NOTE */
+
+.note {
+    background:#fff8e7;
+    border:1px solid #ead8a9;
+    color:#66501d;
+    padding:11px 13px;
+    border-radius:8px;
+    margin:12px 0;
+}
+
+/* UTILITIES */
+
+.hidden {
+    display:none!important;
+}
+
+.right {
+    text-align:right;
+}
+
+.pill {
+    display:inline-block;
+    background:#e8f4f4;
+    color:#14736f;
+    border-radius:20px;
+    padding:3px 8px;
+    font-size:11px;
+}
+
+/* FOOTER */
+
+footer {
+    color:var(--muted);
+    font-size:12px;
+    padding:18px 2px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px) {
+
+    .cards {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    header {
+        padding:18px;
+    }
+
+    .wrap {
+        padding:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        THE ENTITY SOLUTIONS
+    </div>
+
+    <div class="title">
+        PVR Earthworks Progress Tracker – Digitised
+    </div>
+
+    <div class="subtitle">
+        Rural 1 · Permanent Works | Version 1 spreadsheet replication
+    </div>
+
+</header>
+
+<main class="wrap">
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+        <div>
+
+            <strong id="loadStatus">
+                Loading original workbook data…
+            </strong>
+
+            <div class="status" id="saveStatus">
+                Changes are saved in this browser.
+            </div>
+
+        </div>
+
+        <div class="toolbar">
+
+            <button id="exportBtn">
+                Export progress CSV
+            </button>
+
+            <button id="backupBtn">
+                Download backup
+            </button>
+
+            <button id="resetBtn">
+                Reset to original workbook
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- INFORMATION -->
+
+    <div class="note">
+
+        <b>Workbook replication:</b>
+
+        Rural 1 and Rural 1 Qty's are two connected views
+        of the same tracker.
+
+        Tick a chainage in Rural 1 and its matching design
+        quantity is included as completed in Rural 1 Qty's.
+
+        Original workbook tick states and design quantities
+        are loaded.
+
+    </div>
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <small>
+                MT · Total design quantity
+            </small>
+
+            <strong id="mt">—</strong>
+
+        </div>
+
+        <div class="card">
+
+            <small>
+                MU · Completed quantity
+            </small>
+
+            <strong id="mu">—</strong>
+
+        </div>
+
+        <div class="card">
+
+            <small>
+                MW · Outstanding quantity
+            </small>
+
+            <strong id="mw">—</strong>
+
+        </div>
+
+        <div class="card">
+
+            <small>
+                MV · Overall progress
+            </small>
+
+            <strong id="mv">—</strong>
+
+        </div>
+
+        <div class="card">
+
+            <small>
+                MX · Outstanding
+            </small>
+
+            <strong id="mx">—</strong>
+
+        </div>
+
+    </div>
+
+    <!-- NAVIGATION TABS -->
+
+    <div class="tabs">
+
+        <button class="tab active" data-view="progress">
+
+            Rural 1 – Progress Tracker
+
+        </button>
+
+        <button class="tab" data-view="quantities">
+
+            Rural 1 Qty's – Design Quantities
+
+        </button>
+
+        <button class="tab" data-view="summary">
+
+            Activity Summary
+
+        </button>
+
+    </div>
+
+    <!-- RURAL 1 PROGRESS TRACKER -->
+
+    <section id="progressView" class="panel">
+
+        <h2>
+            Rural 1 – Permanent Works Progress
+        </h2>
+
+        <div class="filters">
+
+            <input
+                id="pSearch"
+                placeholder="Search activity…"
+            >
+
+            <select id="pSide">
+
+                <option value="">All sides</option>
+                <option>Left</option>
+                <option>Right</option>
+                <option>Full Width</option>
+
+            </select>
+
+            <select id="pChain">
+
+                <option value="">All chainages</option>
+
+            </select>
+
+            <span class="status">
+
+                Tick = completed (100% of corresponding design quantity)
+
+            </span>
+
+        </div>
+
+        <div class="tablewrap">
+
+            <table id="progressTable"></table>
+
+        </div>
+
+    </section>
+
+    <!-- RURAL 1 QUANTITIES -->
+
+    <section id="quantitiesView" class="panel hidden">
+
+        <h2>
+            Rural 1 Qty's – Design Quantities
+        </h2>
+
+        <div class="filters">
+
+            <input
+                id="qSearch"
+                placeholder="Search activity…"
+            >
+
+            <select id="qSide">
+
+                <option value="">All sides</option>
+                <option>Left</option>
+                <option>Right</option>
+                <option>Full Width</option>
+
+            </select>
+
+            <select id="qChain">
+
+                <option value="">All chainages</option>
+
+            </select>
+
+            <span class="status">
+
+                Design quantity cells are editable.
+                Changes recalculate progress.
+
+            </span>
+
+        </div>
+
+        <div class="tablewrap">
+
+            <table id="quantityTable"></table>
+
+        </div>
+
+    </section>
+
+    <!-- ACTIVITY SUMMARY -->
+
+    <section id="summaryView" class="panel hidden">
+
+        <h2>
+            Rural 1 Qty's – Calculated Activity Summary
+        </h2>
+
+        <div class="tablewrap">
+
+            <table
+                class="summarytable"
+                id="summaryTable">
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        TES · PVR Earthworks Progress Tracker Digitised
+
+        · Local browser prototype.
+
+        Keep the original Excel workbook as the source-of-record
+        until PVR signs off the replica.
+
+    </footer>
+
+</main>
+
+<script src="app.js"></script>
+
+</body>
+</html>
