@@ -49,7 +49,11 @@ const ORIGINAL_BASE = JSON.parse(
 
 // BASE becomes the currently active engineering baseline.
 let BASE = ORIGINAL_BASE;
-
+let rows = BASE.activities.map(a => ({
+    ...a,
+    design: [...a.design],
+    completed: [...a.completed]
+}));
 
 
 const $=id=>document.getElementById(id); let STORE='pvrEarthworksV1', activeProject=null, activeSub=null, db=null;
