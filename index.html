@@ -51,7 +51,7 @@ const ORIGINAL_BASE = JSON.parse(
 let BASE = ORIGINAL_BASE;
 
 
-let rows=BASE.activities.map(a=>({...a,design:[...a.design],completed:[...a.completed]}));
+
 const $=id=>document.getElementById(id); let STORE='pvrEarthworksV1', activeProject=null, activeSub=null, db=null;
 const fmt=n=>Number(n||0).toLocaleString('en-ZA',{maximumFractionDigits:2});
 const chFmt=n=>{let s=String(n);return s.slice(0,-3)+'+'+s.slice(-3)};
